@@ -64,9 +64,9 @@ body {
 }
 
 .backBtn {
-	background: none;
-	width: 20px;
+	background: #f1f1f1;
+	width: 70px;
 	height: 50px;
-	color: grey;
+	color: black;
 }
 

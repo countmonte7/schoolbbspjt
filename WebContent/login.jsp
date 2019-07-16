@@ -22,20 +22,26 @@
 	    </div>
 	    
 	    <input type="submit" class="logbtn" value="로그인">
+	    <div class="error-text">
+	    	${error}
+	    </div>
 	    <div class="bottom-text">
 	        <a href="signup.jsp">회원가입</a>
 	    </div>
 	</form>
 	
-	<script type="text/javascript">
+	<script type="text/javascript">		
         $(".txtb input").on("focus", function(){
             $(this).addClass("focus");
         });
-        
         $(".txtb input").on("blur", function(){
             if($(this).val()=="")
             $(this).removeClass("focus");
         });
+        setTimeout(function() {
+        	 $(".error-text").fadeOut().empty();
+		}, 5000);
+       
     </script>
 </body>
 </html>

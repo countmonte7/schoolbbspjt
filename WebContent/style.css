@@ -103,3 +103,8 @@ body {
     text-align: center;
     font-size: 13px;
 }
+
+.error-text {
+	font-weight: lighter;
+}
+

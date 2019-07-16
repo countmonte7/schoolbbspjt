@@ -16,6 +16,19 @@
 </head>
 <body>
 	<%
+		String userId = null;
+		if(session.getAttribute("userId") != null) {
+			userId = (String)session.getAttribute("userId");
+		}
+		
+		if(userId != null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('이미 로그인된 상태입니다.')");
+			script.println("location.href = 'index.jsp'");
+			script.println("</script>");
+		}
+	
 		if(user.getUserId() == null || user.getUserPw()==null ||
 			user.getUserName()==null || user.getUserEmail()==null ||
 			user.getStudentCode()==0) {
@@ -40,6 +53,7 @@
 				script.println("history.back()");
 				script.println("</script>");
 			}else {
+				session.setAttribute("userId", user.getUserId());
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('회원가입이 완료됐습니다.')");

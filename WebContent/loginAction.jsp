@@ -13,19 +13,33 @@
 </head>
 <body>
 	<%
+		String userId = null;
+		if(session.getAttribute("userId") != null) {
+			userId = (String)session.getAttribute("userId");
+		}
+		if(userId != null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('이미 로그인된 상태입니다.')");
+			script.println("location.href = 'index.jsp'");
+			script.println("</script>");
+		}
 		UserDAO userDao = new UserDAO();
 		int result = userDao.login(user.getUserId(), user.getUserPw());
 		if(result== 1) {
+			session.setAttribute("userId", user.getUserId());
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("location.href = 'index.jsp'");
 			script.println("</script>");
 		}else if(result==0) {
 			PrintWriter script = response.getWriter();
-			script.println("<script>");
+			request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
+			pageContext.forward("login.jsp");
+			/* script.println("<script>");
 			script.println("alert('비밀번호가 일치하지 않습니다.')");
 			script.println("history.back()");
-			script.println("</script>");
+			script.println("</script>"); */
 		}else if(result==-1) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
