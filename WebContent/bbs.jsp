@@ -4,6 +4,7 @@
    <%@ page import="app.bbs.BbsDAO" %>
    <%@ page import="app.bbs.Bbs" %>
    <%@ page import="java.util.ArrayList" %>
+   <%@ include file="tagLib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,45 +17,26 @@
 <body>
 	<%
 		String userId = null;
+		int nthValue = 0; //네비게이션 active 클래스 추가를 위해
 		if(session.getAttribute("userId") != null) {
 			userId = (String)session.getAttribute("userId");
+			nthValue = 5;
+		}else {
+			nthValue = 4;
 		}
+		pageContext.setAttribute("userId", userId);
+		pageContext.setAttribute("value", nthValue);
 		
 		int pageNum = 1;
 		if(request.getParameter("pageNum")!=null)  {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 	%>
-
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	        <a class="navbar-brand" href="index.jsp">학교 게시판 웹사이트</a>
-	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-	            aria-expanded="false">
-	            <span class="navbar-toggler-icon"></span>
-	        </button>
-	        <div class="collapse navbar-collapse" id="navbarNav">
-	            <ul class="navbar-nav">
-	                <li class="nav-item">
-	                    <a class="nav-link" href="index.jsp">홈<span class="sr-only">(current)</span></a>
-	                </li>
-	                <% if(userId == null) { %>
-	                <li class="nav-item">
-	                    <a class="nav-link" href="login.jsp">로그인</a>
-	                </li>
-	                <% } else { %>
-	                <li class="nav-item">
-	                    <a class="nav-link" href="mypage.jsp">마이페이지</a>
-	                </li>
-	                <li class="nav-item">
-	                    <a class="nav-link" href="logoutAction.jsp">로그아웃</a>
-	                </li>
-	                <% } %>
-	                <li class="nav-item active">
-	                    <a class="nav-link" href="bbs.jsp">게시판</a>
-	                </li>
-	            </ul>	
-	        </div>
-		</nav>
+	
+	<jsp:include page="navigation.jsp" flush="false">
+				<jsp:param name="bbsActiveClass" value="${value}" />
+	</jsp:include>
+	
 		<div class="container">
 			<div class="row">
 				<table class="table table-striped" style="text-align:center; border:1px solid #dddddd">

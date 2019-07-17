@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+}
+
+a {
+	margin: 5px;
+	right: 10px;
+}
