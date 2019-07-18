@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="bbsStyle.css"  type="text/css">
+<link rel="stylesheet" href="bbsStyle.css"  type="text/css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <title>JSP 게시판 웹사이트</title>
 </head>
@@ -20,9 +20,9 @@
 		int nthValue = 0; //네비게이션 active 클래스 추가를 위해
 		if(session.getAttribute("userId") != null) {
 			userId = (String)session.getAttribute("userId");
-			nthValue = 5;
-		}else {
 			nthValue = 4;
+		}else {
+			nthValue = 3;
 		}
 		pageContext.setAttribute("userId", userId);
 		pageContext.setAttribute("value", nthValue);
@@ -37,50 +37,49 @@
 				<jsp:param name="bbsActiveClass" value="${value}" />
 	</jsp:include>
 	
-		<div class="container">
-			<div class="row">
-				<table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
-					<thead>
-						<tr>
-							<th style="background-color: #eeeeee; text-align:center;">번호</th>
-							<th style="background-color: #eeeeee; text-align:center;">제목</th>
-							<th style="background-color: #eeeeee; text-align:center;">작성자</th>
-							<th style="background-color: #eeeeee; text-align:center;">작성날짜</th>
-						</tr>
-					</thead>
-					<tbody>
-						<%
-							BbsDAO bbsDAO = new BbsDAO();
-							ArrayList<Bbs> list = bbsDAO.getList(pageNum);
-							for(int i = 0, listSize = list.size();i < listSize;i++) {
-						%>
-						<tr>
-							<td><%= list.get(i).getBbsId() %></td>
-							<td><a href="view.jsp?bbsId=<%=list.get(i).getBbsId() %>"><%= list.get(i).getBbsTitle() %></a></td>
-							<td><%= list.get(i).getUserId() %></td>
-							<td><%= list.get(i).getBbsDate().substring(0,11) + 
-							list.get(i).getBbsDate().substring(11,13) + "시 " + 
-									list.get(i).getBbsDate().substring(14,16) + "분" %></td>
-						</tr>
-						<%
-							}
-						%>
-					</tbody>
-				</table>
-				<%
-					if(pageNum != 1) {
-				%>
-					<a href="bbs.jsp?pageNum=<%= pageNum -1 %>" class="btn btn-success btn-arrow-left">이전 페이지</a>
-				<%
-					} if(bbsDAO.nextPage(pageNum + 1)) {
-				%>
-					<a href="bbs.jsp?pageNum=<%= pageNum +1 %>" class="btn btn-success btn-arrow-left">다음 페이지</a>
-				<%
-					}
-				%>
-				
-				<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
-			</div>
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+				<thead>
+					<tr>
+						<th style="background-color: #eeeeee; text-align:center;">번호</th>
+						<th style="background-color: #eeeeee; text-align:center;">제목</th>
+						<th style="background-color: #eeeeee; text-align:center;">작성자</th>
+						<th style="background-color: #eeeeee; text-align:center;">작성날짜</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+						BbsDAO bbsDAO = new BbsDAO();
+						ArrayList<Bbs> list = bbsDAO.getList(pageNum);
+						for(int i = 0, listSize = list.size();i < listSize;i++) {
+					%>
+					<tr>
+						<td><%= list.get(i).getBbsId() %></td>
+						<td><a href="view.jsp?bbsId=<%=list.get(i).getBbsId() %>"><%= list.get(i).getBbsTitle() %></a></td>
+						<td><%= list.get(i).getUserId() %></td>
+						<td><%= list.get(i).getBbsDate().substring(0,11) + 
+						list.get(i).getBbsDate().substring(11,13) + "시 " + 
+								list.get(i).getBbsDate().substring(14,16) + "분" %></td>
+					</tr>
+					<%
+						}
+					%>
+				</tbody>
+			</table>
+			<%
+				if(pageNum != 1) {
+			%>
+				<a href="bbs.jsp?pageNum=<%= pageNum -1 %>" class="btn btn-success btn-arrow-left">이전 페이지</a>
+			<%
+				} if(bbsDAO.nextPage(pageNum + 1)) {
+			%>
+				<a href="bbs.jsp?pageNum=<%= pageNum +1 %>" class="btn btn-success btn-arrow-left">다음 페이지</a>
+			<%
+				}
+			%>
+			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		</div>
+	</div>
 </body>
 </html>

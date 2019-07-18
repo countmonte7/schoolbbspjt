@@ -31,8 +31,20 @@
 			script.println("location.href='bbs.jsp';");
 			script.println("</script>");
 		}
+		int nthValue = 0; //네비게이션 active 클래스 추가를 위해
+		if(session.getAttribute("userId") != null) {
+			userId = (String)session.getAttribute("userId");
+			nthValue = 4;
+		}else {
+			nthValue = 3;
+		}
+		pageContext.setAttribute("userId", userId);
+		pageContext.setAttribute("value", nthValue);
 	%>
-	<jsp:include page="navigation.jsp" flush="false" />
+
+	<jsp:include page="navigation.jsp" flush="false">
+				<jsp:param name="bbsActiveClass" value="${value}" />
+	</jsp:include>
 
 		<div class="container">
 			<div class="row">
@@ -62,6 +74,7 @@
 					if(userId != null && userId.equals(bbs.getUserId())) {
 				%>
 					<a href="update.jsp?bbsId=<%= bbsId %>" class="btn btn-primary">글 수정</a>
+					<a href="deleteAction.jsp?bbsId=<%=bbsId %>" class="btn btn-warning">글 삭제</a>
 				<%
 					}
 				%>

@@ -128,4 +128,47 @@ public class BbsDAO {
 		return bbs;
 	}
 	
+	public int deleteBbs(int bbsId) {
+		String sql = "DELETE FROM bbs WHERE bbsId=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbsId);
+			int result = pstmt.executeUpdate();
+			if(result==1) {
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public int updateBbs(int bbsId, String bbsTitle, String bbsDate, String bbsContent) {
+		String sql = "UPDATE bbs SET bbsTitle=?, bbsDate=?, bbsContent=? WHERE bbsId=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, getDate());
+			pstmt.setString(3, bbsContent);
+			pstmt.setInt(4, bbsId);
+			int result = pstmt.executeUpdate();
+			if(result==1) {
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
