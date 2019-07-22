@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ page import="app.user.UserDAO" %>
     <%@ page import="java.io.PrintWriter" %>
+    <%@ include file="tagLib.jsp" %>
     <jsp:useBean id="user" class="app.user.User" scope="page" />
     <jsp:setProperty name="user" property="userId" />
     <jsp:setProperty name="user" property="userPw" />
@@ -23,35 +24,37 @@
 			script.println("alert('이미 로그인된 상태입니다.')");
 			script.println("location.href = 'index.jsp'");
 			script.println("</script>");
-		}
-		UserDAO userDao = new UserDAO();
-		int result = userDao.login(user.getUserId(), user.getUserPw());
-		if(result== 1) {
-			session.setAttribute("userId", user.getUserId());
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = 'index.jsp'");
-			script.println("</script>");
-		}else if(result==0) {
-			PrintWriter script = response.getWriter();
-			request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
-			pageContext.forward("login.jsp");
-			/* script.println("<script>");
-			script.println("alert('비밀번호가 일치하지 않습니다.')");
-			script.println("history.back()");
-			script.println("</script>"); */
-		}else if(result==-1) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('존재하지 않는 아이디입니다.')");
-			script.println("history.back()");
-			script.println("</script>");
-		}else if(result==-2) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('데이터베이스 오류.')");
-			script.println("history.back()");
-			script.println("</script>");
+		}else {
+			userId = request.getParameter("userId");
+			String password = request.getParameter("userPw");
+			UserDAO userDao = new UserDAO();
+			int result = userDao.login(userId, password);
+			if(result== 1) {
+				session.setAttribute("userId", userId);
+			%>
+				<c:set var="sessionId" value="userId" scope="session"/>
+			<%
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("location.href = 'index.jsp'");
+				script.println("</script>");
+			}else if(result==0) {
+				PrintWriter script = response.getWriter();
+				request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
+				pageContext.forward("login.jsp");
+			}else if(result==-1) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('존재하지 않는 아이디입니다.')");
+				script.println("history.back()");
+				script.println("</script>");
+			}else if(result==-2) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('데이터베이스 오류.')");
+				script.println("history.back()");
+				script.println("</script>");
+			}
 		}
 	%>
 </body>

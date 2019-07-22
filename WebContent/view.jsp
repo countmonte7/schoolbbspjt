@@ -12,15 +12,16 @@
 <title>JSP 게시판 웹사이트</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <style type="text/css">
-	body {border: 1px solid MediumSeaGreen;width:100%;height:100%;}
+	body {border: 1px solid MediumSeaGreen;height:100%;overflow:auto;}
 	.container {
 		position:absolute;
 		margin-left: 10px auto;
 		margin-right: 10px auto;
-		top: 10%;
+		top: 5px;
 	}
 	
 	table {
+		margin-top: 5px;
 		padding: 10px;
 	}
 	
@@ -116,8 +117,32 @@
 					</div>
 			</div>
 			<div class="bottom">
+				<div class="row1">
+					<c:if test="${requestScope.commentList != null }">
+						<c:forEach var="comment" items="${requestScope.commentList }">
+							<tr>
+								<td><div>
+									${comment.commentId}<br>
+									${comment.comment_date}
+								</div></td>
+								<td><div class="text-wrapper">
+									${comment.comment_content}
+								</div></td>
+								<td><div id="btn" style="text-align:center;">
+									<a href="#">[답변]</a><br>
+									<c:if test="${comment.commentId != sessionScope.sessionId }">
+										<a href="#">[수정]</a><br>
+										<a href="#">[삭제]</a>
+									</c:if>
+								</div></td>
+							</tr>
+						</c:forEach>
+					</c:if>
+				</div>
 				<div class="row2">
-					<jsp:include page="comment.jsp" flush="false" />
+					<c:if test="${sessionScope.sessionId != null }">
+						<jsp:include page="comment.jsp" flush="false" />
+					</c:if>
 				</div>
 				<div class="row3">
 					<a href="bbs.jsp">목록</a>
