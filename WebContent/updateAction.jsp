@@ -1,5 +1,7 @@
+<%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="app.bbs.Bbs" %>
     <%@ page import="app.bbs.BbsDAO" %>
     <%@ page import="java.io.PrintWriter" %>
     <jsp:useBean id="bbs" class="app.bbs.Bbs" scope="page" />
@@ -18,6 +20,21 @@
 		if(session.getAttribute("userId") != null) {
 			userId = (String)session.getAttribute("userId");
 		}
+		int bbsId = 0;
+		String bbsTitle = null;
+		String bbsContent = null;
+		if(request.getParameter("bbsId")!=null) {
+			bbsId = Integer.parseInt(request.getParameter("bbsId"));
+		}
+		//update.jsp의 입력 사항 가져오기
+		if(request.getParameter("bbsTitle")!=null) {
+			bbsTitle = request.getParameter("bbsTitle");
+		}
+		if(request.getParameter("bbsContent")!=null) {
+			bbsContent = request.getParameter("bbsContent");
+		}
+		BbsDAO bbsDAO = new BbsDAO();
+		bbs = bbsDAO.getBbs(bbsId);
 		
 		if(userId == null) {
 			PrintWriter script = response.getWriter();
@@ -25,8 +42,7 @@
 			script.println("alert('로그인을 해야 글을 수정할 수 있습니다.')");
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
-		} 
-		if(!userId.equals(bbs.getUserId())) {
+		} else if(!userId.equals(bbs.getUserId())) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('글쓴이만 글을 수정할 수 있습니다.')");
@@ -40,8 +56,7 @@
 					script.println("history.back()");
 					script.println("</script>");
 				}else {
-					BbsDAO bbsDAO = new BbsDAO();
-					int result = bbsDAO.write(bbs.getBbsTitle(), userId, bbs.getBbsContent());
+					int result = bbsDAO.updateBbs(bbsId, bbsTitle, bbsDAO.getDate(), bbsContent);
 					if(result== -1) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");
