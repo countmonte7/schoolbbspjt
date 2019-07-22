@@ -51,7 +51,7 @@ public class BbsDAO {
 	}
 	
 	public int write(String bbsTitle, String userId, String bbsContent) {
-		String sql = "INSERT INTO bbs VALUE (?,?,?,?,?,?)";
+		String sql = "INSERT INTO bbs VALUE (?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, getNext());
@@ -60,6 +60,7 @@ public class BbsDAO {
 			pstmt.setString(4, getDate());
 			pstmt.setString(5, bbsContent);
 			pstmt.setInt(6, 1);
+			pstmt.setInt(7, 0);
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -82,6 +83,7 @@ public class BbsDAO {
 				bbs.setBbsDate(rs.getString(4));
 				bbs.setBbsContent(rs.getString(5));
 				bbs.setBbsAvailable(rs.getInt(6));
+				bbs.setBbsHit(rs.getInt(7));
 				list.add(bbs);
 			}
 		}catch(Exception e) {
@@ -120,6 +122,7 @@ public class BbsDAO {
 				bbs.setBbsDate(rs.getString("bbsDate"));
 				bbs.setBbsContent(rs.getString("bbsContent"));
 				bbs.setBbsAvailable(rs.getInt("bbsAvailable"));
+				bbs.setBbsHit(rs.getInt("bbsHit"));
 				return bbs;
 			}
 		}catch(Exception e) {
@@ -159,6 +162,17 @@ public class BbsDAO {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	public void updateReadCnt(int bbsId) {	
+		String sql = "UPDATE bbs SET bbsHit = bbsHit+1 WHERE bbsId=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbsId);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 

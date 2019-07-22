@@ -10,9 +10,17 @@
 <head>
 <meta charset="UTF-8" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="bbsStyle.css"  type="text/css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <title>JSP 게시판 웹사이트</title>
+<style type="text/css">
+	table {
+	 	margin-top: 20px;
+	}
+	a, a:hover {
+	color: black;
+	text-decoration: none;
+	}
+</style>
 </head>
 <body>
 	<%
@@ -46,6 +54,7 @@
 						<th style="background-color: #eeeeee; text-align:center;">제목</th>
 						<th style="background-color: #eeeeee; text-align:center;">작성자</th>
 						<th style="background-color: #eeeeee; text-align:center;">작성날짜</th>
+						<th style="background-color: #eeeeee; text-align:center;">조회수</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,11 +65,12 @@
 					%>
 					<tr>
 						<td><%= list.get(i).getBbsId() %></td>
-						<td><a href="view.jsp?bbsId=<%=list.get(i).getBbsId() %>"><%= list.get(i).getBbsTitle() %></a></td>
+						<td><a href="BbsServlet?bbsId=<%=list.get(i).getBbsId() %>"><%= list.get(i).getBbsTitle() %></a></td>
 						<td><%= list.get(i).getUserId() %></td>
 						<td><%= list.get(i).getBbsDate().substring(0,11) + 
 						list.get(i).getBbsDate().substring(11,13) + "시 " + 
 								list.get(i).getBbsDate().substring(14,16) + "분" %></td>
+						<td><%= list.get(i).getBbsHit() %></td>
 					</tr>
 					<%
 						}

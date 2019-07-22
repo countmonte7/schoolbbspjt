@@ -10,6 +10,7 @@ public class Bbs {
 	private String bbsDate;
 	private String bbsContent;
 	private int bbsAvailable;
+	private int bbsHit;
 	
 	
 	public int getBbsId() {
@@ -48,6 +49,14 @@ public class Bbs {
 	public void setBbsAvailable(int bbsAvailable) {
 		this.bbsAvailable = bbsAvailable;
 	}
+	public int getBbsHit() {
+		return bbsHit;
+	}
+	public void setBbsHit(int bbsHit) {
+		this.bbsHit = bbsHit;
+	}
+	
+	
 	
 	
 }
