@@ -12,7 +12,6 @@
 <title>JSP 게시판 웹사이트</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <style type="text/css">
-	body {border: 1px solid MediumSeaGreen;height:100%;overflow:auto;}
 	.container {
 		position:absolute;
 		margin-left: 10px auto;
@@ -117,7 +116,7 @@
 					</div>
 			</div>
 			<div class="bottom">
-				<div class="row1">
+				<div>
 					<c:if test="${requestScope.commentList != null }">
 						<c:forEach var="comment" items="${requestScope.commentList }">
 							<tr>
@@ -141,7 +140,9 @@
 				</div>
 				<div class="row2">
 					<c:if test="${sessionScope.sessionId != null }">
-						<jsp:include page="comment.jsp" flush="false" />
+						<jsp:include page="comment.jsp" flush="false">
+							<jsp:param name="bbsId" value="<%=bbsId %>" />
+						</jsp:include>
 					</c:if>
 				</div>
 				<div class="row3">

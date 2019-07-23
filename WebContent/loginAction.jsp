@@ -27,6 +27,11 @@
 		}else {
 			userId = request.getParameter("userId");
 			String password = request.getParameter("userPw");
+			if(userId.equals("") || password.equals("")) {
+				PrintWriter script = response.getWriter();
+				request.setAttribute("error", "아이디와 비밀번호를 입력해주세요.");
+				pageContext.forward("login.jsp");
+			}
 			UserDAO userDao = new UserDAO();
 			int result = userDao.login(userId, password);
 			if(result== 1) {

@@ -49,7 +49,7 @@
 			script.println("location.href = 'history.back()'");
 			script.println("</script>");
 		}else {
-			if(bbs.getBbsTitle() == null || bbs.getBbsContent()==null) {
+			if(bbsTitle == null || bbsTitle.equals("") || bbsContent==null || bbsContent.equals("")) {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('입력이 안 된 사항이 있습니다.')");
