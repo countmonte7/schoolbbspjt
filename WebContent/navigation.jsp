@@ -13,12 +13,10 @@
 <body>
 	<%
 		String userId = null;
-		if(session.getAttribute("userId") != null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId") != null) {
+			userId = (String)session.getAttribute("sessionId");
 		}
 	%>
-	
-	
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	        <a class="navbar-brand" href="index.jsp">학교 게시판 웹사이트</a>

@@ -1,6 +1,7 @@
 package app.bbs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,9 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
 
-import com.mysql.cj.Session;
+import app.comment.Comment;
+import app.comment.CommentDAO;
 
 
 @WebServlet("/BbsServlet")
@@ -29,7 +30,7 @@ public class BbsServlet extends HttpServlet {
 		String url = "view.jsp";
 		int bbsId = Integer.parseInt(request.getParameter("bbsId"));
 		HttpSession session = request.getSession();
-		String userId = (String)session.getAttribute("userId");
+		String userId = (String)session.getAttribute("sessionId");
 		BbsDAO dao = new BbsDAO();
 		boolean isGet = false;
 		Cookie[] cookies = request.getCookies();
@@ -49,6 +50,9 @@ public class BbsServlet extends HttpServlet {
 		
 		Bbs bbs = dao.getBbs(bbsId);
 		request.setAttribute("bbs", bbs);
+		CommentDAO commentDao = CommentDAO.getInstance();
+		ArrayList<Comment> comment_list = commentDao.getCommentList(bbsId);
+		request.setAttribute("comment_list", comment_list);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}

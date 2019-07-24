@@ -2,6 +2,7 @@ package app.comment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,13 +31,15 @@ public class CommentServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String content = request.getParameter("comment_content");
 		HttpSession session = request.getSession();
-		String writer = (String)session.getAttribute("userId");
+		String writer = (String)session.getAttribute("sessionId");
 		int bbsId = 0;
 		if(request.getParameter("bbsId")!=null) {
 			bbsId = Integer.parseInt(request.getParameter("bbsId"));
 		}
 		CommentDAO commentDao = CommentDAO.getInstance();
 		int result = commentDao.writeComment(bbsId, writer, content);
+		ArrayList<Comment> commentList = commentDao.getCommentList(bbsId);
+		request.setAttribute("commentList", commentList);
 		if(result==1) {
 			RequestDispatcher dis = request.getRequestDispatcher("view.jsp?bbsId="+ bbsId);
 			dis.forward(request, response);

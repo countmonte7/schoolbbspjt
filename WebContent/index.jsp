@@ -14,9 +14,10 @@
 <body>
 	<%
 		String userId = null;
-		if(session.getAttribute("userId") != null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId") != null) {
+			userId = (String)session.getAttribute("sessionId");
 		}
+		
 	%>
 
 	<jsp:include page="navigation.jsp" flush="false">

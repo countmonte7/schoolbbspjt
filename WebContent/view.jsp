@@ -3,6 +3,8 @@
    <%@ page import="java.io.PrintWriter" %>
    <%@ page import="app.bbs.BbsDAO" %>
    <%@ page import="app.bbs.Bbs" %>
+   <%@ page import="app.comment.Comment" %>
+   <%@ page import="app.comment.CommentDAO" %>
    <%@ page import="java.util.ArrayList" %>
    <%@ include file="tagLib.jsp" %>
 <!DOCTYPE html>
@@ -22,6 +24,9 @@
 	table {
 		margin-top: 5px;
 		padding: 10px;
+	}
+	table > a {
+		text-decoration: none;
 	}
 	
 	table > td {
@@ -43,6 +48,7 @@
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
+		margin-top: 10px;
 	}
 </style>
 </head>
@@ -50,8 +56,8 @@
 	<div class="container">
 		<%
 			String userId = null;
-			if(session.getAttribute("userId") != null) {
-				userId = (String)session.getAttribute("userId");
+			if(session.getAttribute("sessionId") != null) {
+				userId = (String)session.getAttribute("sessionId");
 			}
 			
 			int bbsId = 0;
@@ -67,8 +73,8 @@
 			}
 			
 			int nthValue = 0; //네비게이션 active 클래스 추가를 위해
-			if(session.getAttribute("userId") != null) {
-				userId = (String)session.getAttribute("userId");
+			if(session.getAttribute("sessionId") != null) {
+				userId = (String)session.getAttribute("sessionId");
 				nthValue = 4;
 			}else {
 				nthValue = 3;
@@ -117,26 +123,38 @@
 			</div>
 			<div class="bottom">
 				<div>
-					<c:if test="${requestScope.commentList != null }">
-						<c:forEach var="comment" items="${requestScope.commentList }">
+				<%
+					CommentDAO commentDao = CommentDAO.getInstance();
+					ArrayList<Comment> commentList = commentDao.getCommentList(bbsId);
+					if(commentList!=null) {
+						for(int i=0, len = commentList.size();i<len;i++) {
+				%>
 							<tr>
-								<td><div>
-									${comment.commentId}<br>
-									${comment.comment_date}
-								</div></td>
-								<td><div class="text-wrapper">
-									${comment.comment_content}
-								</div></td>
-								<td><div id="btn" style="text-align:center;">
-									<a href="#">[답변]</a><br>
-									<c:if test="${comment.commentId != sessionScope.sessionId }">
-										<a href="#">[수정]</a><br>
-										<a href="#">[삭제]</a>
-									</c:if>
-								</div></td>
+								<div>
+									<td>
+											<%= commentList.get(i).getWriter() %>
+									</td>
+									<td style="text-align:right;">
+											<%=commentList.get(i).getComment_content() %>
+									</td>
+									<td>
+										<%=commentList.get(i).getComment_datetime() %>
+									</td>
+									<td>
+											<a href="#">[댓글]</a>
+											<%
+												if(commentList.get(i).getWriter().equals(userId)) {
+											%>
+												<a href="#">[수정]</a>
+												<a href="#">[삭제]</a>
+											<%
+												}
+						}
+					}
+											%>
+									</td>
+								</div>
 							</tr>
-						</c:forEach>
-					</c:if>
 				</div>
 				<div class="row2">
 					<c:if test="${sessionScope.sessionId != null }">
@@ -150,5 +168,7 @@
 				</div>
 			</div>
 	</div>
+	<script>
+	</script>
 </body>
 </html>

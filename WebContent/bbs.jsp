@@ -16,9 +16,9 @@
 	table {
 	 	margin-top: 20px;
 	}
-	a, a:hover {
-	color: black;
-	text-decoration: none;
+	.container > a, a:hover {
+		color: black;
+		text-decoration: none;
 	}
 </style>
 </head>
@@ -26,8 +26,8 @@
 	<%
 		String userId = null;
 		int nthValue = 0; //네비게이션 active 클래스 추가를 위해
-		if(session.getAttribute("userId") != null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId") != null) {
+			userId = (String)session.getAttribute("sessionId");
 			nthValue = 4;
 		}else {
 			nthValue = 3;

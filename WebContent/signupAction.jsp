@@ -17,8 +17,8 @@
 <body>
 	<%
 		String userId = null;
-		if(session.getAttribute("userId") != null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId") != null) {
+			userId = (String)session.getAttribute("sessionId");
 		}
 		
 		if(userId != null) {
@@ -53,7 +53,7 @@
 				script.println("history.back()");
 				script.println("</script>");
 			}else {
-				session.setAttribute("userId", user.getUserId());
+				session.setAttribute("sessionId", userId);
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('회원가입이 완료됐습니다.')");
