@@ -12,7 +12,11 @@
 <head>
 <meta charset="UTF-8" content="text/html; charset=UTF-8">
 <title>JSP 게시판 웹사이트</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script src="js/timeago.js"></script>
 <style type="text/css">
 	.container {
 		position:absolute;
@@ -122,47 +126,9 @@
 					</div>
 			</div>
 			<div class="bottom">
-				<div>
-				<%
-					CommentDAO commentDao = CommentDAO.getInstance();
-					ArrayList<Comment> commentList = commentDao.getCommentList(bbsId);
-					if(commentList!=null) {
-						for(int i=0, len = commentList.size();i<len;i++) {
-				%>
-							<tr>
-								<div>
-									<td>
-											<%= commentList.get(i).getWriter() %>
-									</td>
-									<td style="text-align:right;">
-											<%=commentList.get(i).getComment_content() %>
-									</td>
-									<td>
-										<%=commentList.get(i).getComment_datetime() %>
-									</td>
-									<td>
-											<a href="#">[댓글]</a>
-											<%
-												if(commentList.get(i).getWriter().equals(userId)) {
-											%>
-												<a href="#">[수정]</a>
-												<a href="#">[삭제]</a>
-											<%
-												}
-						}
-					}
-											%>
-									</td>
-								</div>
-							</tr>
-				</div>
-				<div class="row2">
-					<c:if test="${sessionScope.sessionId != null }">
 						<jsp:include page="comment.jsp" flush="false">
 							<jsp:param name="bbsId" value="<%=bbsId %>" />
 						</jsp:include>
-					</c:if>
-				</div>
 				<div class="row3">
 					<a href="bbs.jsp">목록</a>
 				</div>

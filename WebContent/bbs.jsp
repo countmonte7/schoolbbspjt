@@ -12,11 +12,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <title>JSP 게시판 웹사이트</title>
-<style type="text/css">
+<style type="text/css" >
 	table {
 	 	margin-top: 20px;
 	}
-	.container > a, a:hover {
+	[href] {
 		color: black;
 		text-decoration: none;
 	}
@@ -87,8 +87,12 @@
 				<a href="bbs.jsp?pageNum=<%= pageNum +1 %>" class="btn btn-success btn-arrow-left">다음 페이지</a>
 			<%
 				}
+				if(userId != null) {
 			%>
 			<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+			<%
+				} 
+			%>
 		</div>
 	</div>
 </body>

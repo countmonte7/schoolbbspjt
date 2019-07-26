@@ -4,14 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="signupstyle.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width" initial-scale="1">
+<link href="signupstyle.css" rel="stylesheet" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <title>회원가입</title>
 </head>
 <body>
-	<div class="backBtn-section">
-		<button class="backBtn" type="button" onclick="history.back()">뒤로 가기</button>
-	</div>
+	<jsp:include page="back.jsp" />
     <form action="signupAction.jsp" class="signup-form" method="POST">
         <h1>회원가입</h1>
         <div class="input_obj">

@@ -14,8 +14,8 @@
 <body>
 	<%
 		String userId = null;
-		if(session.getAttribute("userId") != null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId") != null) {
+			userId = (String)session.getAttribute("sessionId");
 		}
 		
 		if(userId == null) {
@@ -25,7 +25,8 @@
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
 		}else {
-			if(bbs.getBbsTitle() == null || bbs.getBbsContent()==null) {
+			if(bbs.getBbsTitle() == null || bbs.getBbsTitle().equals("") || 
+					bbs.getBbsContent()==null || bbs.getBbsContent().equals("")) {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('입력이 안 된 사항이 있습니다.')");

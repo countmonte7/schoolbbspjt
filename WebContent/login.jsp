@@ -10,6 +10,9 @@
 <title>로그인</title>
 </head>
 <body>
+	<header>
+		<jsp:include page="back.jsp" />
+	</header>
 	<form action="loginAction.jsp" class="login-form">
 	    <h1>로그인</h1>
 	    <div class="txtb">
