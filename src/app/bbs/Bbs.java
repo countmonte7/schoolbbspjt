@@ -11,7 +11,7 @@ public class Bbs {
 	private String bbsContent;
 	private int bbsAvailable;
 	private int bbsHit;
-	
+	private String bbsImg;
 	
 	public int getBbsId() {
 		return bbsId;
@@ -55,8 +55,10 @@ public class Bbs {
 	public void setBbsHit(int bbsHit) {
 		this.bbsHit = bbsHit;
 	}
-	
-	
-	
-	
+	public String getBbsImg() {
+		return bbsImg;
+	}
+	public void setBbsImg(String bbsImg) {
+		this.bbsImg = bbsImg;
+	}
 }

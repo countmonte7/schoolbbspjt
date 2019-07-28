@@ -14,10 +14,10 @@
 		int bbsId = Integer.parseInt(request.getParameter("bbsId"));
 		String userId = null;
 		BbsDAO bbsDAO = new BbsDAO();
-		if(session.getAttribute("userId")!=null) {
-			userId = (String)session.getAttribute("userId");
+		if(session.getAttribute("sessionId")!=null) {
+			userId = (String)session.getAttribute("sessionId");
 		}
-		System.out.print(userId);
+		System.out.print(userId + "!!!!!");
 		Bbs bbs = bbsDAO.getBbs(bbsId);
 		if(!bbs.getUserId().equals(userId)) {
 			PrintWriter script = response.getWriter();

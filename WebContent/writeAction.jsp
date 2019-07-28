@@ -1,10 +1,11 @@
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="app.bbs.BbsDAO" %>
-    <%@ page import="java.io.PrintWriter" %>
-    <jsp:useBean id="bbs" class="app.bbs.Bbs" scope="page" />
-    <jsp:setProperty name="bbs" property="bbsTitle" />
-    <jsp:setProperty name="bbs" property="bbsContent" />
+<%@ page import="app.bbs.BbsDAO" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest"%>
+<%@ page import="java.util.Enumeration" %>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,19 +15,40 @@
 <body>
 	<%
 		String userId = null;
+		String saveFolder = "img";
+		String filesysname = null;
+		MultipartRequest multi = null;
+		String bbsTitle = null;
+		String bbsContent = null;
+		//세션 아이디 존재 검증
 		if(session.getAttribute("sessionId") != null) {
 			userId = (String)session.getAttribute("sessionId");
 		}
-		
 		if(userId == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인을 해야 글을 쓸 수 있습니다.')");
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
-		}else {
-			if(bbs.getBbsTitle() == null || bbs.getBbsTitle().equals("") || 
-					bbs.getBbsContent()==null || bbs.getBbsContent().equals("")) {
+		}
+		String savePath = request.getSession().getServletContext().getRealPath(saveFolder);
+		int sizeLimit = 1024*1024*15;
+		try {
+			multi = new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String str = (String)files.nextElement();
+			String originFile = multi.getOriginalFileName(str);
+			filesysname = multi.getFilesystemName(str);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		//게시판 제목과 내용 가져오기
+			bbsTitle = multi.getParameter("bbsTitle");
+			bbsContent = multi.getParameter("bbsContent");
+		//null 검증	
+		if(userId!=null) {
+			if(bbsTitle == null || bbsTitle.equals("") || 
+					bbsContent==null || bbsContent.equals("")) {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('입력이 안 된 사항이 있습니다.')");
@@ -34,7 +56,8 @@
 					script.println("</script>");
 				}else {
 					BbsDAO bbsDAO = new BbsDAO();
-					int result = bbsDAO.write(bbs.getBbsTitle(), userId, bbs.getBbsContent());
+					String fullpath = savePath + "\\" + filesysname;
+					int result = bbsDAO.write(bbsTitle, userId, bbsContent, fullpath);
 					if(result== -1) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");

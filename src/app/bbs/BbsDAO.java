@@ -50,8 +50,8 @@ public class BbsDAO {
 		return -1;
 	}
 	
-	public int write(String bbsTitle, String userId, String bbsContent) {
-		String sql = "INSERT INTO bbs VALUE (?,?,?,?,?,?,?)";
+	public int write(String bbsTitle, String userId, String bbsContent, String filepath) {
+		String sql = "INSERT INTO bbs VALUE (?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, getNext());
@@ -61,6 +61,7 @@ public class BbsDAO {
 			pstmt.setString(5, bbsContent);
 			pstmt.setInt(6, 1);
 			pstmt.setInt(7, 0);
+			pstmt.setString(8, filepath);
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -123,6 +124,7 @@ public class BbsDAO {
 				bbs.setBbsContent(rs.getString("bbsContent"));
 				bbs.setBbsAvailable(rs.getInt("bbsAvailable"));
 				bbs.setBbsHit(rs.getInt("bbsHit"));
+				bbs.setBbsImg(rs.getString("bbsImg"));
 				return bbs;
 			}
 		}catch(Exception e) {
