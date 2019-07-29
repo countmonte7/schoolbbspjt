@@ -15,7 +15,6 @@
 <body>
 	<%
 		String userId = null;
-		String saveFolder = "img";
 		String filesysname = null;
 		MultipartRequest multi = null;
 		String bbsTitle = null;
@@ -31,20 +30,19 @@
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
 		}
-		String savePath = request.getSession().getServletContext().getRealPath(saveFolder);
+		ServletContext context = getServletContext();
+		String realFolder = context.getRealPath("/img");
+		System.out.println(realFolder);
 		int sizeLimit = 1024*1024*15;
-		try {
-			multi = new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
-			String str = (String)files.nextElement();
-			String originFile = multi.getOriginalFileName(str);
+		multi = new MultipartRequest(request, realFolder, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+		Enumeration<?> files = multi.getFileNames();
+		String str = (String)files.nextElement();
+		if(str!=null) {
 			filesysname = multi.getFilesystemName(str);
-		}catch(Exception e) {
-			e.printStackTrace();
 		}
 		//게시판 제목과 내용 가져오기
-			bbsTitle = multi.getParameter("bbsTitle");
-			bbsContent = multi.getParameter("bbsContent");
+		bbsTitle = multi.getParameter("bbsTitle");
+		bbsContent = multi.getParameter("bbsContent");
 		//null 검증	
 		if(userId!=null) {
 			if(bbsTitle == null || bbsTitle.equals("") || 
@@ -56,8 +54,7 @@
 					script.println("</script>");
 				}else {
 					BbsDAO bbsDAO = new BbsDAO();
-					String fullpath = savePath + "\\" + filesysname;
-					int result = bbsDAO.write(bbsTitle, userId, bbsContent, fullpath);
+					int result = bbsDAO.write(bbsTitle, userId, bbsContent, filesysname);
 					if(result== -1) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");

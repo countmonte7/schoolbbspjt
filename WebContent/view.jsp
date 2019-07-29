@@ -1,3 +1,5 @@
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.FileReader"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ page import="java.io.PrintWriter" %>
@@ -18,6 +20,10 @@
   crossorigin="anonymous"></script>
 <script src="js/timeago.js"></script>
 <style type="text/css">
+	body {
+		margin: 0;
+	}
+
 	.container {
 		position:absolute;
 		margin-left: 10px auto;
@@ -25,31 +31,36 @@
 		top: 5px;
 	}
 	
-	table {
+	.table {
 		margin-top: 5px;
 		padding: 10px;
 	}
-	table > a {
+	.table > a {
 		text-decoration: none;
 	}
 	
-	table > td {
-		text-align: left;
+	.table > td {
+		text-align: center;
+	}
+	
+	img {
+		max-width: 400px;
+		width: auto;
+		height: auto;
 	}
 	
 	.bottom {
 		clear: both;
 		position:absolute;
 		margin: 0 auto;
-		top: 100%;
-		padding: 30px;
+		padding: 10px;
 		-webkit-box-sizing: border-box;
      	-moz-box-sizing: border-box;
          box-sizing: border-box;
 	}
 	
 	.row1, .row2, .row3 {
-		display: block;
+		display: inline-block;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 10px;
@@ -99,18 +110,19 @@
 								Bbs bbs = bbsDAO.getBbs(bbsId);
 							%>
 							<tr>
-								<td style="width:10%;font-size:80%; border 1px solid"><%=bbs.getBbsId() %></td>
-								<td style="width:50%;font-size:1.5em;"><%=bbs.getBbsTitle() %></td>
-								<td style="width:20%;font-size:smaller;text-align:right;">작성자 : <%=bbs.getUserId() %></td>
-								<td style="wdith:20%;font-size:smaller;">조회수 : <%= bbs.getBbsHit() %></td>
+								<td style="font-size:80%;text-align: left;"><%=bbs.getBbsId() %></td>
+								<td style="font-size:1.5em;"><%=bbs.getBbsTitle() %></td>
+								<td style="font-size:smaller;text-align:right;">작성자 : <%=bbs.getUserId() %></td>
+								<td style="font-size:smaller;">조회수 : <%= bbs.getBbsHit() %></td>
 							</tr>
 							<tr>
-								<td colspan="3"></td>
-								<td colspan="1" align="right" style="font-size:smaller;">작성시간 : <%=bbs.getBbsDate().substring(0,10) %> 
+								<td colspan="2"></td>
+								<td colspan="2" align="right" style="font-size:smaller;">작성시간 : <%=bbs.getBbsDate().substring(0,10) %> 
 								<%=bbs.getBbsDate().substring(11,13) %>시 <%=bbs.getBbsDate().substring(14,16) %>분</td>
 							</tr>
 							<tr>
-								<td colspan="4"><%=bbs.getBbsContent() %></td>
+								<td colspan="1"><img src="<%=request.getContextPath() %>/img/<%=bbs.getBbsImg() %>" width="600" height="800" /></td>
+								<td colspan="3"><%=bbs.getBbsContent() %></td>
 							</tr>
 						</tbody>
 					</table>

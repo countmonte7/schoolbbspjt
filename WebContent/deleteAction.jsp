@@ -17,7 +17,6 @@
 		if(session.getAttribute("sessionId")!=null) {
 			userId = (String)session.getAttribute("sessionId");
 		}
-		System.out.print(userId + "!!!!!");
 		Bbs bbs = bbsDAO.getBbs(bbsId);
 		if(!bbs.getUserId().equals(userId)) {
 			PrintWriter script = response.getWriter();
