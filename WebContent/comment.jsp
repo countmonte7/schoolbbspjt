@@ -70,7 +70,7 @@
 												if(commentList.get(i).getWriter().equals(userId)) {
 											%>
 												<a href="updateCommentAction.jsp">[수정]</a>
-												<a href="deleteCommentAction.jsp">[삭제]</a>
+												<a href="deleteCommentAction.jsp?bbsId=<%=bbsId %>&commentId=<%=commentList.get(i).getCommentId()%>">[삭제]</a>
 											<%
 												}
 											%>

@@ -98,5 +98,19 @@ public class CommentDAO {
 		return list;
 	}
 	
+	public int deleteComment(int commentId) {
+		String sql = "DELETE FROM comment WHERE commentId = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, commentId);
+			int result = pstmt.executeUpdate();
+			if(result==1) {
+				return result;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
 }
